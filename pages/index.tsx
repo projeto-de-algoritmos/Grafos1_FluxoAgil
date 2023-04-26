@@ -1,17 +1,19 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Typography } from "@mui/material";
+import { Container } from "@mui/material";
+import CurriculumSelect from "@/components/CurriculumSelect";
 
 const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Template</title>
-        <meta name="description" content="Template" />
+        <title>Fluxo Ágil</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Typography variant="h3">Template</Typography>
+      <Container maxWidth="sm">
+        <CurriculumSelect />
+      </Container>
     </>
   );
 };
