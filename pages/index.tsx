@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { Container } from "@mui/material";
 import CurriculumSelect from "@/components/CurriculumSelect";
+import CoursesAutocomplete from "@/components/CoursesAutocomplete";
 
 const Home: NextPage = () => {
   return (
@@ -13,6 +14,8 @@ const Home: NextPage = () => {
 
       <Container maxWidth="sm">
         <CurriculumSelect />
+
+        <CoursesAutocomplete />
       </Container>
     </>
   );
