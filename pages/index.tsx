@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import CurriculumSelect from "@/components/CurriculumSelect";
 import CoursesAutocomplete from "@/components/CoursesAutocomplete";
 
@@ -13,9 +13,15 @@ const Home: NextPage = () => {
       </Head>
 
       <Container maxWidth="sm">
-        <CurriculumSelect />
+        <Grid container spacing={4} py={4}>
+          <Grid item xs={12}>
+            <CurriculumSelect />
+          </Grid>
 
-        <CoursesAutocomplete />
+          <Grid item xs={12}>
+            <CoursesAutocomplete />
+          </Grid>
+        </Grid>
       </Container>
     </>
   );

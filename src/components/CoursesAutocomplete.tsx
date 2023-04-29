@@ -8,16 +8,12 @@ const CoursesAutocomplete = () => {
   const curriculum = useSelector(selectCurriculum);
   const { data: courses } = useFetchCoursesQuery(curriculum ?? skipToken);
 
-  if (!courses) {
-    return <Typography>Carregando...</Typography>;
-  }
-
   return (
     <Autocomplete
       disabled={!curriculum}
       disableCloseOnSelect
       multiple
-      options={courses}
+      options={courses ?? []}
       renderInput={(params) => <TextField {...params} label="Disciplinas" />}
       renderOption={(props, course) => {
         return (
