@@ -8,10 +8,7 @@ export const api = createApi({
     fetchCurricula: builder.query<string[], void>({
       query: () => "/curricula",
     }),
-    fetchCourses: builder.query<Course[], string>({
-      query: (curriculumId) => `/courses?curriculum=${curriculumId}`,
-    }),
   }),
 });
 
-export const { useFetchCurriculaQuery, useFetchCoursesQuery } = api;
+export const { useFetchCurriculaQuery } = api;

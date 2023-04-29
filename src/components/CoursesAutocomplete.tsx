@@ -1,12 +1,30 @@
-import { useSelector } from "react-redux";
-import { skipToken } from "@reduxjs/toolkit/dist/query";
+import { SyntheticEvent, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Autocomplete, Box, Chip, TextField, Typography } from "@mui/material";
-import { useFetchCoursesQuery } from "@/store/api";
-import { selectCurriculum } from "@/store/slice";
+
+import {
+  selectCourses,
+  selectCurriculum,
+  setRemainingCourses,
+} from "@/store/slice";
+import { Course } from "types";
 
 const CoursesAutocomplete = () => {
+  const dispatch = useDispatch();
+
   const curriculum = useSelector(selectCurriculum);
-  const { data: courses } = useFetchCoursesQuery(curriculum ?? skipToken);
+  const courses = useSelector(selectCourses);
+
+  const handleCoursesChange = useCallback(
+    (_: SyntheticEvent<Element, Event>, concludedCourses: Course[]) => {
+      const remainingCourses = courses.filter(
+        (course) => !concludedCourses.includes(course)
+      );
+
+      dispatch(setRemainingCourses(remainingCourses));
+    },
+    [dispatch, courses]
+  );
 
   return (
     <Autocomplete
@@ -27,6 +45,7 @@ const CoursesAutocomplete = () => {
         );
       }}
       getOptionLabel={(course) => course.id}
+      onChange={handleCoursesChange}
     />
   );
 };
