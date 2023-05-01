@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import {
   Box,
   Chip,
+  Divider,
   List,
   ListItem,
   ListItemAvatar,
@@ -29,18 +30,55 @@ const CoursesPriority = () => {
       <Typography variant="h5">Prioridade de disciplinas</Typography>
 
       <List>
-        {topologicalSort.map((course) => (
-          <ListItem key={course.id} disableGutters>
-            <ListItemAvatar>
-              <Chip
-                label={course.id}
-                color="primary"
-                variant="outlined"
-                size="small"
+        {topologicalSort.map((course, index) => (
+          <>
+            <ListItem key={course.id} disableGutters>
+              <ListItemAvatar>
+                <Chip
+                  sx={{ minWidth: "83px" }}
+                  label={course.id}
+                  color="primary"
+                />
+              </ListItemAvatar>
+
+              <ListItemText
+                primary={course.title}
+                secondary={
+                  <>
+                    <Typography variant="body2" color="text.secondary">
+                      {`Recomendada no ${course.recommendedPeriod}º período.`}
+                    </Typography>
+
+                    {graph.getCourseAdjacencyList(course.id).length > 0 && (
+                      <Box mt={1}>
+                        <Typography variant="subtitle2" color="text.secondary">
+                          Tranca as disciplinas:
+                        </Typography>
+
+                        <Box mt={1}>
+                          {graph
+                            .getCourseAdjacencyList(course.id)
+                            .map((prerequisite) => (
+                              <Chip
+                                key={prerequisite.id}
+                                sx={{ mr: 1 }}
+                                label={prerequisite.id}
+                                color="secondary"
+                                size="small"
+                                variant="outlined"
+                              />
+                            ))}
+                        </Box>
+                      </Box>
+                    )}
+                  </>
+                }
+                inset
               />
-            </ListItemAvatar>
-            <ListItemText primary={course.title} />
-          </ListItem>
+            </ListItem>
+
+            <Divider component="li" />
+          </>
         ))}
       </List>
     </Box>

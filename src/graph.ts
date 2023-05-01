@@ -93,6 +93,10 @@ export class CurriculumDAG {
 
     return topologicalSort;
   }
+
+  public getCourseAdjacencyList(courseId: Course["id"]): Course[] {
+    return this.adjacencyList.get(courseId) || [];
+  }
 }
 
 export const getCurriculumDAG = (curriculum: JSONCurriculum): CurriculumDAG => {
