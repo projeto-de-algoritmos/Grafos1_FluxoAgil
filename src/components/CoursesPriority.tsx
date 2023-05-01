@@ -3,10 +3,12 @@ import { useSelector } from "react-redux";
 import {
   Box,
   Card,
+  Chip,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemText,
-  ListSubheader,
+  Typography,
 } from "@mui/material";
 
 import { selectRemainingCourses } from "@/store/slice";
@@ -15,29 +17,33 @@ import { getCurriculumDAG } from "@/src/graph";
 const CoursesPriority = () => {
   const remainingCourses = useSelector(selectRemainingCourses);
 
-  const topologicalSort = useMemo(() => {
-    const graph = getCurriculumDAG(remainingCourses);
-
-    return graph.getTopologicalSort();
+  const graph = useMemo(() => {
+    return getCurriculumDAG(remainingCourses);
   }, [remainingCourses]);
 
+  const topologicalSort = useMemo(() => {
+    return graph.getTopologicalSort();
+  }, [graph]);
+
   return (
-    <Box display="flex">
-      <Card sx={{ width: "250px" }}>
-        <List
-          subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              Disciplinas
-            </ListSubheader>
-          }
-        >
-          {topologicalSort.map((course) => (
-            <ListItem key={course.id}>
-              <ListItemText primary={course.title} />
-            </ListItem>
-          ))}
-        </List>
-      </Card>
+    <Box>
+      <Typography variant="h5">Prioridade de disciplinas</Typography>
+
+      <List>
+        {topologicalSort.map((course) => (
+          <ListItem key={course.id}>
+            <ListItemAvatar>
+              <Chip
+                label={course.id}
+                color="primary"
+                variant="outlined"
+                size="small"
+              />
+            </ListItemAvatar>
+            <ListItemText primary={course.title} />
+          </ListItem>
+        ))}
+      </List>
     </Box>
   );
 };

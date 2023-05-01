@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -9,32 +9,35 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 
-import { useFetchCurriculaQuery } from "@/store/api";
-import { selectCurriculum, setCurriculum } from "@/store/slice";
+import curricula from "@/json/curricula.json";
+import { selectCurriculumId, setCurriculum } from "@/store/slice";
+import { CurriculumId } from "types";
 
 const CurriculumSelect = () => {
-  const { data: curricula, isLoading } = useFetchCurriculaQuery();
-
   const dispatch = useDispatch();
-  const curriculum = useSelector(selectCurriculum);
+  const curriculumId = useSelector(selectCurriculumId);
+
+  const curriculaIds: CurriculumId[] = useMemo(() => {
+    return Object.keys(curricula) as CurriculumId[];
+  }, []);
 
   const handleCurriculumChange = useCallback(
     (event: SelectChangeEvent) => {
-      dispatch(setCurriculum(event.target.value));
+      dispatch(setCurriculum(event.target.value as keyof typeof curricula));
     },
     [dispatch]
   );
 
   return (
-    <FormControl fullWidth disabled={isLoading}>
+    <FormControl fullWidth>
       <InputLabel>Currículo</InputLabel>
 
       <Select
         label="Currículo"
-        value={curriculum}
+        value={curriculumId}
         onChange={handleCurriculumChange}
       >
-        {curricula?.map((curriculum) => (
+        {curriculaIds.map((curriculum) => (
           <MenuItem key={curriculum} value={curriculum}>
             {curriculum}
           </MenuItem>

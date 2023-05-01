@@ -1,4 +1,4 @@
-import { JSONCourse } from "types";
+import { JSONCurriculum, JSONCourse } from "types";
 
 export class Course {
   public id: string;
@@ -83,35 +83,34 @@ export class CurriculumDAG {
   }
 }
 
-const getCourseFromJSONCourse = (jsonCourse: JSONCourse): Course => {
-  return new Course(
-    jsonCourse.id,
-    jsonCourse.title,
-    jsonCourse.period,
-    jsonCourse.credits
-  );
-};
-
-export const getCurriculumDAG = (courses: JSONCourse[]): CurriculumDAG => {
+export const getCurriculumDAG = (curriculum: JSONCurriculum): CurriculumDAG => {
   const graph = new CurriculumDAG();
 
-  courses.forEach((jsonCourse) => {
-    const course = getCourseFromJSONCourse(jsonCourse);
+  Object.keys(curriculum).forEach((courseId) => {
+    const jsonCourse = curriculum[courseId];
+
+    const course = new Course(
+      courseId,
+      jsonCourse.title,
+      jsonCourse.period,
+      jsonCourse.credits
+    );
 
     graph.addNode(course);
 
     if (jsonCourse.prerequisites.length > 0) {
-      jsonCourse.prerequisites.forEach((courseId) => {
-        const prerequisiteJSONCourse = courses.find(
-          (jsonCourse) => jsonCourse.id === courseId
-        );
+      jsonCourse.prerequisites.forEach((prerequisiteCourseId) => {
+        const prerequisiteJSONCourse = curriculum[prerequisiteCourseId];
 
         if (!prerequisiteJSONCourse) {
           return;
         }
 
-        const prerequisiteCourse = getCourseFromJSONCourse(
-          prerequisiteJSONCourse
+        const prerequisiteCourse = new Course(
+          prerequisiteCourseId,
+          prerequisiteJSONCourse.title,
+          prerequisiteJSONCourse.period,
+          prerequisiteJSONCourse.credits
         );
 
         graph.addEdge(prerequisiteCourse, course);
@@ -120,4 +119,32 @@ export const getCurriculumDAG = (courses: JSONCourse[]): CurriculumDAG => {
   });
 
   return graph;
+
+  // const curriculum: JSONCurriculum = curricula[curriculumId];
+
+  // Object.keys(curriculum).forEach((courseId) => {
+  //   const jsonCourse = curriculum[courseId];
+
+  //   const course = getCourseFromJSONCourse(jsonCourse);
+
+  //   graph.addNode(course);
+
+  //   if (jsonCourse.prerequisites.length > 0) {
+  //     jsonCourse.prerequisites.forEach((courseId) => {
+  //       const prerequisiteJSONCourse = curriculum[courseId];
+
+  //       if (!prerequisiteJSONCourse) {
+  //         return;
+  //       }
+
+  //       const prerequisiteCourse = getCourseFromJSONCourse(
+  //         prerequisiteJSONCourse
+  //       );
+
+  //       graph.addEdge(prerequisiteCourse, course);
+  //     });
+  //   }
+  // });
+
+  // return graph;
 };
