@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
   Box,
-  Card,
   Chip,
   List,
   ListItem,
@@ -31,7 +30,7 @@ const CoursesPriority = () => {
 
       <List>
         {topologicalSort.map((course) => (
-          <ListItem key={course.id}>
+          <ListItem key={course.id} disableGutters>
             <ListItemAvatar>
               <Chip
                 label={course.id}

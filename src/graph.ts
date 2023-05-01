@@ -1,4 +1,4 @@
-import { JSONCurriculum, JSONCourse } from "types";
+import { JSONCurriculum } from "types";
 
 export class Course {
   public id: string;
@@ -65,15 +65,27 @@ export class CurriculumDAG {
     topologicalSort.unshift(course);
   }
 
+  public getSortedCoursesByRecommendedPeriod(): Course[] {
+    return Array.from(this.courses.values()).sort(
+      (a, b) => b.recommendedPeriod - a.recommendedPeriod
+    );
+  }
+
   public getTopologicalSort(): Course[] {
     const visited: Map<Course["id"], boolean> = new Map();
     const topologicalSort: Course[] = [];
 
-    this.courses.forEach((course) => {
-      visited.set(course.id, false);
+    // Get the courses sorted by recommended period (ascending)
+    const sortedCoursesByRecommendedPeriod =
+      this.getSortedCoursesByRecommendedPeriod();
+
+    // Initialize all vertices as not visited
+    this.adjacencyList.forEach((_, courseId) => {
+      visited.set(courseId, false);
     });
 
-    this.courses.forEach((course) => {
+    // Call the recursive helper function to store the topological sort
+    sortedCoursesByRecommendedPeriod.forEach((course) => {
       if (!visited.get(course.id)) {
         this.topologicalSortUtil(course, visited, topologicalSort);
       }
