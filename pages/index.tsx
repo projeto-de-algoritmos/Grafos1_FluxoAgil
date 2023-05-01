@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Container, Grid } from "@mui/material";
 import CurriculumSelect from "@/components/CurriculumSelect";
 import CoursesAutocomplete from "@/components/CoursesAutocomplete";
+import CoursesPriority from "@/components/CoursesPriority";
 
 const Home: NextPage = () => {
   return (
@@ -20,6 +21,10 @@ const Home: NextPage = () => {
 
           <Grid item xs={12}>
             <CoursesAutocomplete />
+          </Grid>
+
+          <Grid item xs={12}>
+            <CoursesPriority />
           </Grid>
         </Grid>
       </Container>
