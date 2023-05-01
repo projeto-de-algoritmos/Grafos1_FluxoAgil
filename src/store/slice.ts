@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from ".";
-import { Course } from "types";
+import { JSONCourse } from "types";
 import curricula from "@/json/curricula.json";
 
 export interface State {
   curriculum: keyof typeof curricula | "";
-  courses: Course[];
-  remainingCourses: Course[];
+  courses: JSONCourse[];
+  remainingCourses: JSONCourse[];
 }
 
 const initialState: State = {
@@ -24,7 +24,7 @@ export const mainSlice = createSlice({
       state.courses = curricula[action.payload];
       state.remainingCourses = curricula[action.payload];
     },
-    setRemainingCourses: (state, action: PayloadAction<Course[]>) => {
+    setRemainingCourses: (state, action: PayloadAction<JSONCourse[]>) => {
       state.remainingCourses = action.payload;
     },
   },

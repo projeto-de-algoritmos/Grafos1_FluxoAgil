@@ -7,7 +7,7 @@ import {
   selectCurriculum,
   setRemainingCourses,
 } from "@/store/slice";
-import { Course } from "types";
+import { JSONCourse } from "types";
 
 const CoursesAutocomplete = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const CoursesAutocomplete = () => {
   const courses = useSelector(selectCourses);
 
   const handleCoursesChange = useCallback(
-    (_: SyntheticEvent<Element, Event>, concludedCourses: Course[]) => {
+    (_: SyntheticEvent<Element, Event>, concludedCourses: JSONCourse[]) => {
       const remainingCourses = courses.filter(
         (course) => !concludedCourses.includes(course)
       );
@@ -33,18 +33,7 @@ const CoursesAutocomplete = () => {
       multiple
       options={courses ?? []}
       renderInput={(params) => <TextField {...params} label="Disciplinas" />}
-      renderOption={(props, course) => {
-        return (
-          <li {...props} key={course.id}>
-            <Box minWidth="90px">
-              <Chip label={course.id} size="small" />
-            </Box>
-
-            <Typography variant="body2">{course.title}</Typography>
-          </li>
-        );
-      }}
-      getOptionLabel={(course) => course.id}
+      getOptionLabel={(course) => course.title}
       onChange={handleCoursesChange}
     />
   );

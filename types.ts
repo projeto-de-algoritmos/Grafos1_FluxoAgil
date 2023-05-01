@@ -1,4 +1,4 @@
-export type Course = {
+export type JSONCourse = {
   id: string;
   title: string;
   prerequisites: string[];
