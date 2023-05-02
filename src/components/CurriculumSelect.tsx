@@ -29,7 +29,7 @@ const CurriculumSelect = () => {
   );
 
   return (
-    <FormControl fullWidth>
+    <FormControl sx={{ width: "150px" }}>
       <InputLabel>Currículo</InputLabel>
 
       <Select

@@ -41,6 +41,7 @@ const CoursesAutocomplete = () => {
 
   return (
     <Autocomplete
+      sx={{ width: "500px" }}
       disabled={!curriculumId}
       disableCloseOnSelect
       multiple

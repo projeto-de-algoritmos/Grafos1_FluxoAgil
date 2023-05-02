@@ -1,6 +1,14 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Container, Grid } from "@mui/material";
+import {
+  Box,
+  Container,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 import CurriculumSelect from "@/components/CurriculumSelect";
 import CoursesAutocomplete from "@/components/CoursesAutocomplete";
 import CoursesPriority from "@/components/CoursesPriority";
@@ -13,21 +21,43 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxWidth="sm">
-        <Grid container spacing={4} py={4}>
-          <Grid item xs={12}>
-            <CurriculumSelect />
-          </Grid>
+      <Box my={3}>
+        <Container maxWidth="md">
+          <Box mb={3}>
+            <Typography variant="h4">Priorizador de disciplinas</Typography>
 
-          <Grid item xs={12}>
-            <CoursesAutocomplete />
-          </Grid>
+            <Typography variant="subtitle1" color="text.secondary">
+              Saiba quais disciplinas você deve cursar primeiro.
+            </Typography>
+          </Box>
 
-          <Grid item xs={12}>
-            <CoursesPriority />
-          </Grid>
-        </Grid>
-      </Container>
+          <Stepper orientation="vertical">
+            <Step active>
+              <StepLabel>Selecione seu currículo</StepLabel>
+
+              <StepContent>
+                <CurriculumSelect />
+              </StepContent>
+            </Step>
+
+            <Step active>
+              <StepLabel>Selecione as disciplinas que você já cursou</StepLabel>
+
+              <StepContent>
+                <CoursesAutocomplete />
+              </StepContent>
+            </Step>
+
+            <Step active>
+              <StepLabel>Recomendação de prioridade de disciplinas</StepLabel>
+
+              <StepContent>
+                <CoursesPriority />
+              </StepContent>
+            </Step>
+          </Stepper>
+        </Container>
+      </Box>
     </>
   );
 };

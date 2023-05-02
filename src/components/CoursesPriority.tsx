@@ -26,62 +26,57 @@ const CoursesPriority = () => {
   }, [graph]);
 
   return (
-    <Box>
-      <Typography variant="h5">Prioridade de disciplinas</Typography>
-
-      <List>
-        {topologicalSort.map((course, index) => (
-          <>
-            <ListItem key={course.id} disableGutters>
-              <ListItemAvatar>
-                <Chip
-                  sx={{ minWidth: "83px" }}
-                  label={course.id}
-                  color="primary"
-                />
-              </ListItemAvatar>
-
-              <ListItemText
-                primary={course.title}
-                secondary={
-                  <>
-                    <Typography variant="body2" color="text.secondary">
-                      {`Recomendada no ${course.recommendedPeriod}º período.`}
-                    </Typography>
-
-                    {graph.getCourseAdjacencyList(course.id).length > 0 && (
-                      <Box mt={1}>
-                        <Typography variant="subtitle2" color="text.secondary">
-                          Tranca as disciplinas:
-                        </Typography>
-
-                        <Box mt={1}>
-                          {graph
-                            .getCourseAdjacencyList(course.id)
-                            .map((prerequisite) => (
-                              <Chip
-                                key={prerequisite.id}
-                                sx={{ mr: 1 }}
-                                label={prerequisite.id}
-                                color="secondary"
-                                size="small"
-                                variant="outlined"
-                              />
-                            ))}
-                        </Box>
-                      </Box>
-                    )}
-                  </>
-                }
-                inset
+    <List>
+      {topologicalSort.map((course, index) => (
+        <>
+          {index > 0 && <Divider component="li" />}
+          <ListItem key={course.id} disableGutters>
+            <ListItemAvatar>
+              <Chip
+                sx={{ minWidth: "83px" }}
+                label={course.id}
+                color="primary"
               />
-            </ListItem>
+            </ListItemAvatar>
 
-            <Divider component="li" />
-          </>
-        ))}
-      </List>
-    </Box>
+            <ListItemText
+              primary={course.title}
+              secondary={
+                <>
+                  <Typography variant="body2" color="text.secondary">
+                    {`Recomendada no ${course.recommendedPeriod}º período.`}
+                  </Typography>
+
+                  {graph.getCourseAdjacencyList(course.id).length > 0 && (
+                    <Box mt={1}>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        Tranca as disciplinas:
+                      </Typography>
+
+                      <Box mt={1}>
+                        {graph
+                          .getCourseAdjacencyList(course.id)
+                          .map((prerequisite) => (
+                            <Chip
+                              key={prerequisite.id}
+                              sx={{ mr: 1 }}
+                              label={prerequisite.id}
+                              color="secondary"
+                              size="small"
+                              variant="outlined"
+                            />
+                          ))}
+                      </Box>
+                    </Box>
+                  )}
+                </>
+              }
+              inset
+            />
+          </ListItem>
+        </>
+      ))}
+    </List>
   );
 };
 
